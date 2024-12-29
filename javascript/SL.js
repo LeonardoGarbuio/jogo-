@@ -1,176 +1,93 @@
-// Função para criar o personagem
-function createCharacter(event) {
-    event.preventDefault(); // Impede o envio do formulário
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefas de Personagem</title>
+    <link rel="stylesheet" href="css/SL.css">
+</head>
+<body>
+    <!-- Navegação -->
+    <nav>
+        <ul>
+            <li><a href="#ranking" onclick="showSection('ranking')">Ranking</a></li>
+            <li><a href="#equipamentos" onclick="showSection('equipamentos')">Equipamentos</a></li>
+            <li><a href="#personagem" onclick="showSection('personagem')">Personagem</a></li>
+            <li><a href="#tarefas" onclick="showSection('tarefas')">Tarefas</a></li>
+        </ul>
+    </nav>
 
-    // Obter dados do formulário
-    const nome = document.getElementById('nome').value;
-    const forca = document.getElementById('forca').value;
-    const agilidade = document.getElementById('agilidade').value;
-    const inteligencia = document.getElementById('inteligencia').value;
+    <!-- Seção de Criação de Personagem -->
+    <section id="create-character" class="section active">
+        <h2>Criar Personagem</h2>
+        <form>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" required>
 
-    // Verificar se o nome foi preenchido
-    if (!nome) {
-        alert("Por favor, insira um nome para o personagem.");
-        return;
-    }
+            <label for="forca">Força:</label>
+            <input type="number" id="forca" min="1" max="20" required>
 
-    // Criar um objeto de personagem
-    const personagem = {
-        nome: nome,
-        atributos: {
-            forca: parseInt(forca),
-            agilidade: parseInt(agilidade),
-            inteligencia: parseInt(inteligencia),
-        },
-        nivel: 1,
-        xp: 0
-    };
+            <label for="agilidade">Agilidade:</label>
+            <input type="number" id="agilidade" min="1" max="20" required>
 
-    // Armazenar os dados do personagem no localStorage
-    localStorage.setItem('personagem', JSON.stringify(personagem));
+            <label for="inteligencia">Inteligência:</label>
+            <input type="number" id="inteligencia" min="1" max="20" required>
 
-    // Inicializar progresso das tarefas no localStorage
-    const progressoTarefas = {
-        agachamento: 0,
-        flexao: 0,
-        abdominais: 0,
-        corrida: 0
-    };
-    localStorage.setItem('progressoTarefas', JSON.stringify(progressoTarefas));
+            <button type="button" onclick="createCharacter()">Criar Personagem</button>
+        </form>
+    </section>
 
-    // Ocultar a tela de login e mostrar a tela do personagem
-    document.getElementById('login').classList.add('hidden');
-    document.getElementById('personagem').classList.remove('hidden');
+    <!-- Seção de Ranking -->
+    <section id="ranking" class="section hidden">
+        <h2>Ranking</h2>
+        <p>Em breve: sistema de classificação dos melhores jogadores!</p>
+    </section>
 
-    // Carregar as informações do personagem
-    loadCharacter();
-    updateTaskProgress();  // Atualizar o progresso das tarefas ao carregar
-}
+    <!-- Seção de Equipamentos -->
+    <section id="equipamentos" class="section hidden">
+        <h2>Equipamentos</h2>
+        <p>Em breve: gerencie e equipe seu personagem!</p>
+    </section>
 
-// Função para carregar os dados do personagem
-function loadCharacter() {
-    const personagem = JSON.parse(localStorage.getItem('personagem'));
+    <!-- Seção de Personagem Criado -->
+    <section id="personagem" class="section hidden">
+        <h2>Personagem Criado</h2>
+        <p id="character-name">Nome:</p>
+        <p id="character-level">Nível:</p>
+        <p id="strength">Força:</p>
+        <p id="agility">Agilidade:</p>
+        <p id="intelligence">Inteligência:</p>
+    </section>
 
-    if (!personagem) {
-        console.error('Personagem não encontrado no localStorage');
-        return;
-    }
+    <!-- Seção de Tarefas -->
+    <section id="tarefas" class="section hidden">
+        <h2>Tarefas</h2>
+        <div class="task-box">
+            <h3>Agachamento (20 Repetições)</h3>
+            <p id="agachamento-progress">Faltam 20 agachamentos</p>
+            <button onclick="completeExercise('agachamento')">Completar Agachamento</button>
+        </div>
+        <div class="task-box">
+            <h3>Flexão (20 Repetições)</h3>
+            <p id="flexao-progress">Faltam 20 flexões</p>
+            <button onclick="completeExercise('flexao')">Completar Flexão</button>
+        </div>
+        <div class="task-box">
+            <h3>Abdominais (20 Repetições)</h3>
+            <p id="abdominais-progress">Faltam 20 abdominais</p>
+            <button onclick="completeExercise('abdominais')">Completar Abdominais</button>
+        </div>
+        <div class="task-box">
+            <h3>Corrida (1 km)</h3>
+            <p id="corrida-progress">Faltam 1 km de corrida</p>
+            <button onclick="completeExercise('corrida')">Completar Corrida</button>
+        </div>
+    </section>
 
-    // Atualizar a visão geral com os dados do personagem
-    document.getElementById('character-name').textContent = personagem.nome;
-    document.getElementById('character-level').textContent = personagem.nivel;
-    document.getElementById('strength').textContent = personagem.atributos.forca;
-    document.getElementById('agility').textContent = personagem.atributos.agilidade;
-    document.getElementById('intelligence').textContent = personagem.atributos.inteligencia;
-}
+    <script src="javascript/SLA.js"></script>
+</body>
+</html>
 
-// Função para atualizar o progresso das tarefas
-function updateTaskProgress() {
-    let progressoTarefas = JSON.parse(localStorage.getItem('progressoTarefas'));
-
-    if (!progressoTarefas) {
-        // Se não houver dados de progresso, inicialize
-        progressoTarefas = {
-            agachamento: 0,
-            flexao: 0,
-            abdominais: 0,
-            corrida: 0
-        };
-        localStorage.setItem('progressoTarefas', JSON.stringify(progressoTarefas));
-    }
-
-    document.getElementById('agachamento-progress').innerText = `Faltam ${20 - progressoTarefas.agachamento} agachamentos`;
-    document.getElementById('flexao-progress').innerText = `Faltam ${20 - progressoTarefas.flexao} flexões`;
-    document.getElementById('abdominais-progress').innerText = `Faltam ${20 - progressoTarefas.abdominais} abdominais`;
-    document.getElementById('corrida-progress').innerText = `Faltam ${1 - progressoTarefas.corrida} km de corrida`;
-}
-
-// Função para completar um exercício (diminui 10 a cada clique)
-function completeExercise(exercise) {
-    const progressoTarefas = JSON.parse(localStorage.getItem('progressoTarefas'));
-    const progressElement = document.getElementById(`${exercise}-progress`);
-    const button = document.querySelector(`button[onclick="completeExercise('${exercise}')"]`);
-
-    console.log(`Iniciando o exercício: ${exercise}`);
-
-    // Verificar se já passaram 24 horas desde a última conclusão
-    const lastCompleted = localStorage.getItem(`${exercise}-lastCompleted`);
-    const currentTime = new Date().getTime();
-
-    if (lastCompleted) {
-        const timePassed = currentTime - lastCompleted;
-        const timeRemaining = 24 * 60 * 60 * 1000 - timePassed; // 24 horas em milissegundos
-
-        if (timeRemaining > 0) {
-            const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
-            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-            console.log(`Faltam ${hours}h ${minutes}m ${seconds}s para realizar novamente.`);
-            // Atualizar o progresso com o tempo restante
-            progressElement.textContent = `Faltam ${hours}h ${minutes}m ${seconds}s para realizar novamente.`;
-            button.disabled = true; // Desabilitar o botão
-            return;
-        }
-    }
-
-    // Se passou 24 horas ou nunca foi feito, continuar com a contagem dos exercícios
-    if (exercise === 'agachamento') {
-        progressoTarefas.agachamento += 10;
-        if (progressoTarefas.agachamento >= 20) {
-            alert('Você completou 20 agachamentos!');
-        }
-        document.getElementById('agachamento-progress').innerText = `Faltam ${20 - progressoTarefas.agachamento} agachamentos`;
-    } else if (exercise === 'flexao') {
-        progressoTarefas.flexao += 10;
-        if (progressoTarefas.flexao >= 20) {
-            alert('Você completou 20 flexões!');
-        }
-        document.getElementById('flexao-progress').innerText = `Faltam ${20 - progressoTarefas.flexao} flexões`;
-    } else if (exercise === 'abdominais') {
-        progressoTarefas.abdominais += 10;
-        if (progressoTarefas.abdominais >= 20) {
-            alert('Você completou 20 abdominais!');
-        }
-        document.getElementById('abdominais-progress').innerText = `Faltam ${20 - progressoTarefas.abdominais} abdominais`;
-    } else if (exercise === 'corrida') {
-        progressoTarefas.corrida += 1;
-        if (progressoTarefas.corrida >= 1) {
-            alert('Você completou 1 km de corrida!');
-        }
-        document.getElementById('corrida-progress').innerText = `Faltam ${1 - progressoTarefas.corrida} km de corrida`;
-    }
-
-    // Atualizar o horário da última conclusão
-    localStorage.setItem(`${exercise}-lastCompleted`, currentTime);
-
-    // Atualizar o progresso das tarefas no localStorage
-    localStorage.setItem('progressoTarefas', JSON.stringify(progressoTarefas));
-}
-
-// Função para exibir a seção correspondente
-function showSection(sectionId) {
-    // Esconde todas as seções
-    const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        section.classList.remove('active');
-    });
-
-    // Mostra a seção que foi clicada
-    const activeSection = document.getElementById(sectionId);
-    activeSection.classList.add('active');
-}
-
-// Atualizar a visão geral do personagem na primeira carga da página
-window.onload = function() {
-    // Verifica se o personagem já foi criado e carrega seus dados
-    if (localStorage.getItem('personagem')) {
-        loadCharacter();
-    } else {
-        console.error('Personagem não encontrado na primeira carga.');
-    }
-    updateTaskProgress();  // Atualiza o progresso das tarefas na carga da página
-};
 
 
 
