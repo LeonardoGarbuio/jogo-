@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/SL.css">
+</head>
+<body>
+    <!-- Navegação -->
+    <nav>
+        <ul>
+            <li><a href="#ranking" onclick="showSection('ranking')">Ranking</a></li>
+            <li><a href="#equipamentos" onclick="showSection('equipamentos')">Equipamentos</a></li>
+            <li><a href="#personagem" onclick="showSection('personagem')">Personagem</a></li>
+            <li><a href="#tarefas" onclick="showSection('tarefas')">Tarefas</a></li>
+        </ul>
+    </nav>
+
+    <!-- Seção de Cadastro -->
+    <section id="cadastro" class="section">
+        <h2>Cadastro do Personagem</h2>
+        <form id="create-character-form" onsubmit="createCharacter(event)">
+            <label for="nome">Nome do Personagem:</label>
+            <input type="text" id="nome" required><br>
+
+            <!-- Removido o campo de upload de imagem, pois a imagem será fixa (m.jpg) -->
+            <label for="forca">Força:</label>
+            <input type="number" id="forca" min="1" value="10"><br>
+
+            <label for="agilidade">Agilidade:</label>
+            <input type="number" id="agilidade" min="1" value="8"><br>
+
+            <label for="inteligencia">Inteligência:</label>
+            <input type="number" id="inteligencia" min="1" value="12"><br>
+
+            <button type="submit">Criar Personagem</button>
+        </form>
+    </section>
+
+    <!-- Seções ocultas até o cadastro ser realizado -->
+    <section id="ranking" class="section hidden">
+        <h2>Ranking</h2>
+        <p>Confira sua posição entre os melhores desafiadores!</p>
+    </section>
+
+    <section id="equipamentos" class="section hidden">
+        <h2>Equipamentos</h2>
+        <p>Melhore seu desempenho com equipamentos especiais!</p>
+    </section>
+
+    <section id="personagem" class="section hidden">
+        <h2>Personagem</h2>
+        
+        <!-- Visão geral do personagem -->
+        <div class="character-overview">
+            <h3>Visão Geral</h3>
+            <p>Nome: <span id="character-name">John Doe</span></p>
+            <p>Nível: <span id="character-level">5</span></p>
+        </div>
+
+        <!-- Estatísticas do personagem -->
+        <div class="character-stats">
+            <h3>Estatísticas</h3>
+            <ul>
+                <li><strong>Força:</strong> <span id="strength">10</span></li>
+                <li><strong>Agilidade:</strong> <span id="agility">8</span></li>
+                <li><strong>Inteligência:</strong> <span id="intelligence">12</span></li>
+            </ul>
+        </div>
+
+        <img id="character-image" src="m.jpg" alt="Imagem do Personagem" width="150">
+
+        <p>Em breve, você poderá personalizar seu personagem com novos equipamentos e habilidades!</p>
+    </section>
+
+    <section id="tarefas" class="section hidden">
+        <h2>Tarefas</h2>
+        <p>Complete tarefas diárias para subir de nível.</p>
+
+        <!-- Tarefas -->
+        <div class="task-box">
+            <h3>Agachamento (20 Repetições)</h3>
+            <p id="agachamento-progress">Faltam 20 agachamentos</p>
+            <button onclick="completeExercise('agachamento')">Completar Agachamento</button>
+        </div>
+
+        <div class="task-box">
+            <h3>Flexão (20 Repetições)</h3>
+            <p id="flexao-progress">Faltam 20 flexões</p>
+            <button onclick="completeExercise('flexao')">Completar Flexão</button>
+        </div>
+
+        <div class="task-box">
+            <h3>Abdominais (20 Repetições)</h3>
+            <p id="abdominais-progress">Faltam 20 abdominais</p>
+            <button onclick="completeExercise('abdominais')">Completar Abdominais</button>
+        </div>
+
+        <div class="task-box">
+            <h3>Corrida (1 km)</h3>
+            <p id="corrida-progress">Faltam 1 km de corrida</p>
+            <button onclick="completeExercise('corrida')">Completar Corrida</button>
+        </div>
+    </section>
+
+    <script src="javascript/SL.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
