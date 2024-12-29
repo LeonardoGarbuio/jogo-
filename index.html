@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/SL.css">
+    <title>Tarefas de Personagem</title>
 </head>
 <body>
     <!-- Navegação -->
@@ -16,91 +17,86 @@
         </ul>
     </nav>
 
-    <!-- Seção de Cadastro -->
-    <section id="cadastro" class="section">
-        <h2>Cadastro do Personagem</h2>
-        <form id="create-character-form" onsubmit="createCharacter(event)">
+    <!-- Seção de Login (aparece apenas antes de criar o personagem) -->
+    <section id="login" class="section">
+        <h2>Crie seu Personagem</h2>
+        <form onsubmit="createCharacter(event)">
             <label for="nome">Nome do Personagem:</label>
-            <input type="text" id="nome" required><br>
-
-            <!-- Removido o campo de upload de imagem, pois a imagem será fixa (m.jpg) -->
+            <input type="text" id="nome" required>
+            
             <label for="forca">Força:</label>
-            <input type="number" id="forca" min="1" value="10"><br>
+            <input type="number" id="forca" min="0" value="10" required>
 
             <label for="agilidade">Agilidade:</label>
-            <input type="number" id="agilidade" min="1" value="8"><br>
+            <input type="number" id="agilidade" min="0" value="10" required>
 
             <label for="inteligencia">Inteligência:</label>
-            <input type="number" id="inteligencia" min="1" value="12"><br>
+            <input type="number" id="inteligencia" min="0" value="10" required>
 
             <button type="submit">Criar Personagem</button>
         </form>
     </section>
 
-    <!-- Seções ocultas até o cadastro ser realizado -->
-    <section id="ranking" class="section hidden">
-        <h2>Ranking</h2>
-        <p>Confira sua posição entre os melhores desafiadores!</p>
-    </section>
-
-    <section id="equipamentos" class="section hidden">
-        <h2>Equipamentos</h2>
-        <p>Melhore seu desempenho com equipamentos especiais!</p>
-    </section>
-
+    <!-- Seção de Personagem -->
     <section id="personagem" class="section hidden">
         <h2>Personagem</h2>
-        
-        <!-- Visão geral do personagem -->
-        <div class="character-overview">
-            <h3>Visão Geral</h3>
-            <p>Nome: <span id="character-name">John Doe</span></p>
-            <p>Nível: <span id="character-level">5</span></p>
-        </div>
-
-        <!-- Estatísticas do personagem -->
-        <div class="character-stats">
+        <div id="personagem-info">
+            <p id="character-name">Nome: John Doe</p>
+            <p id="character-level">Nível: 1</p>
             <h3>Estatísticas</h3>
-            <ul>
-                <li><strong>Força:</strong> <span id="strength">10</span></li>
-                <li><strong>Agilidade:</strong> <span id="agility">8</span></li>
-                <li><strong>Inteligência:</strong> <span id="intelligence">12</span></li>
-            </ul>
+            <p id="strength">Força: 10</p>
+            <p id="agility">Agilidade: 10</p>
+            <p id="intelligence">Inteligência: 10</p>
+            <p>Imagem do Personagem: Em breve, você poderá personalizar seu personagem com novos equipamentos e habilidades!</p>
         </div>
-
-        <img id="character-image" src="m.jpg" alt="Imagem do Personagem" width="150">
-
-        <p>Em breve, você poderá personalizar seu personagem com novos equipamentos e habilidades!</p>
     </section>
 
-    <section id="tarefas" class="section hidden">
+    <!-- Seção de Tarefas -->
+    <section id="tarefas" class="section">
         <h2>Tarefas</h2>
         <p>Complete tarefas diárias para subir de nível.</p>
 
-        <!-- Tarefas -->
+        <!-- Tarefa de Agachamento -->
         <div class="task-box">
             <h3>Agachamento (20 Repetições)</h3>
             <p id="agachamento-progress">Faltam 20 agachamentos</p>
             <button onclick="completeExercise('agachamento')">Completar Agachamento</button>
         </div>
 
+        <!-- Tarefa de Flexão -->
         <div class="task-box">
             <h3>Flexão (20 Repetições)</h3>
             <p id="flexao-progress">Faltam 20 flexões</p>
             <button onclick="completeExercise('flexao')">Completar Flexão</button>
         </div>
 
+        <!-- Tarefa de Abdominais -->
         <div class="task-box">
             <h3>Abdominais (20 Repetições)</h3>
             <p id="abdominais-progress">Faltam 20 abdominais</p>
             <button onclick="completeExercise('abdominais')">Completar Abdominais</button>
         </div>
 
+        <!-- Tarefa de Corrida -->
         <div class="task-box">
             <h3>Corrida (1 km)</h3>
             <p id="corrida-progress">Faltam 1 km de corrida</p>
             <button onclick="completeExercise('corrida')">Completar Corrida</button>
         </div>
+    </section>
+
+    <!-- Seção de Equipamentos -->
+    <section id="equipamentos" class="section">
+        <h2>Equipamentos</h2>
+        <p>Escolha e equilibre seu equipamento para melhorar seu desempenho nas tarefas.</p>
+        <!-- Equipamentos podem ser adicionados aqui mais tarde -->
+    </section>
+
+    <!-- Seção de Ranking -->
+    <section id="ranking" class="section">
+        <h2>Ranking</h2>
+        <p>Veja o ranking dos jogadores e compare seu progresso com outros.</p>
+        <!-- O ranking pode ser exibido aqui mais tarde -->
     </section>
 
     <script src="javascript/SL.js"></script>
