@@ -1,92 +1,145 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarefas de Personagem</title>
-    <link rel="stylesheet" href="css/SL.css">
-</head>
-<body>
-    <!-- Navegação -->
-    <nav>
-        <ul>
-            <li><a href="#ranking" onclick="showSection('ranking')">Ranking</a></li>
-            <li><a href="#equipamentos" onclick="showSection('equipamentos')">Equipamentos</a></li>
-            <li><a href="#personagem" onclick="showSection('personagem')">Personagem</a></li>
-            <li><a href="#tarefas" onclick="showSection('tarefas')">Tarefas</a></li>
-        </ul>
-    </nav>
+'use strict';
 
-    <!-- Seção de Criação de Personagem -->
-    <section id="create-character" class="section active">
-        <h2>Criar Personagem</h2>
-        <form>
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" required>
+// Função para exibir a seção correspondente
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => section.classList.remove('active'));
+    document.getElementById(sectionId).classList.add('active');
+}
 
-            <label for="forca">Força:</label>
-            <input type="number" id="forca" min="1" max="20" required>
+// Função para criar o personagem
+function createCharacter() {
+    const nome = document.getElementById('nome').value;
+    const forca = document.getElementById('forca').value;
+    const agilidade = document.getElementById('agilidade').value;
+    const inteligencia = document.getElementById('inteligencia').value;
 
-            <label for="agilidade">Agilidade:</label>
-            <input type="number" id="agilidade" min="1" max="20" required>
+    if (!nome || !forca || !agilidade || !inteligencia) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
 
-            <label for="inteligencia">Inteligência:</label>
-            <input type="number" id="inteligencia" min="1" max="20" required>
+    const personagem = {
+        nome,
+        atributos: {
+            forca: parseInt(forca),
+            agilidade: parseInt(agilidade),
+            inteligencia: parseInt(inteligencia),
+        },
+        nivel: 1,
+        xp: 0
+    };
 
-            <button type="button" onclick="createCharacter()">Criar Personagem</button>
-        </form>
-    </section>
+    localStorage.setItem('personagem', JSON.stringify(personagem));
 
-    <!-- Seção de Ranking -->
-    <section id="ranking" class="section hidden">
-        <h2>Ranking</h2>
-        <p>Em breve: sistema de classificação dos melhores jogadores!</p>
-    </section>
+    // Inicializar progresso das tarefas e horários de conclusão
+    const progressoTarefas = {
+        agachamento: 20,
+        flexao: 20,
+        abdominais: 20,
+        corrida: 1
+    };
+    const tarefasTempo = {
+        agachamento: null,
+        flexao: null,
+        abdominais: null,
+        corrida: null
+    };
 
-    <!-- Seção de Equipamentos -->
-    <section id="equipamentos" class="section hidden">
-        <h2>Equipamentos</h2>
-        <p>Em breve: gerencie e equipe seu personagem!</p>
-    </section>
+    localStorage.setItem('progressoTarefas', JSON.stringify(progressoTarefas));
+    localStorage.setItem('tarefasTempo', JSON.stringify(tarefasTempo));
 
-    <!-- Seção de Personagem Criado -->
-    <section id="personagem" class="section hidden">
-        <h2>Personagem Criado</h2>
-        <p id="character-name">Nome:</p>
-        <p id="character-level">Nível:</p>
-        <p id="strength">Força:</p>
-        <p id="agility">Agilidade:</p>
-        <p id="intelligence">Inteligência:</p>
-    </section>
+    // Atualizar informações do personagem na interface
+    document.getElementById('character-name').textContent = `Nome: ${personagem.nome}`;
+    document.getElementById('character-level').textContent = `Nível: ${personagem.nivel}`;
+    document.getElementById('strength').textContent = `Força: ${personagem.atributos.forca}`;
+    document.getElementById('agility').textContent = `Agilidade: ${personagem.atributos.agilidade}`;
+    document.getElementById('intelligence').textContent = `Inteligência: ${personagem.atributos.inteligencia}`;
 
-    <!-- Seção de Tarefas -->
-    <section id="tarefas" class="section hidden">
-        <h2>Tarefas</h2>
-        <div class="task-box">
-            <h3>Agachamento (20 Repetições)</h3>
-            <p id="agachamento-progress">Faltam 20 agachamentos</p>
-            <button onclick="completeExercise('agachamento')">Completar Agachamento</button>
-        </div>
-        <div class="task-box">
-            <h3>Flexão (20 Repetições)</h3>
-            <p id="flexao-progress">Faltam 20 flexões</p>
-            <button onclick="completeExercise('flexao')">Completar Flexão</button>
-        </div>
-        <div class="task-box">
-            <h3>Abdominais (20 Repetições)</h3>
-            <p id="abdominais-progress">Faltam 20 abdominais</p>
-            <button onclick="completeExercise('abdominais')">Completar Abdominais</button>
-        </div>
-        <div class="task-box">
-            <h3>Corrida (1 km)</h3>
-            <p id="corrida-progress">Faltam 1 km de corrida</p>
-            <button onclick="completeExercise('corrida')">Completar Corrida</button>
-        </div>
-    </section>
+    // Exibir a seção do personagem e atualizar progresso das tarefas
+    showSection('personagem');
+    updateTaskProgress();
+}
 
-    <script src="javascript/SLA.js"></script>
-</body>
-</html>
+// Função para atualizar o progresso das tarefas
+function updateTaskProgress() {
+    const progressoTarefas = JSON.parse(localStorage.getItem('progressoTarefas')) || {
+        agachamento: 20,
+        flexao: 20,
+        abdominais: 20,
+        corrida: 1
+    };
+
+    document.getElementById('agachamento-progress').innerText = `Faltam ${progressoTarefas.agachamento} agachamentos`;
+    document.getElementById('flexao-progress').innerText = `Faltam ${progressoTarefas.flexao} flexões`;
+    document.getElementById('abdominais-progress').innerText = `Faltam ${progressoTarefas.abdominais} abdominais`;
+    document.getElementById('corrida-progress').innerText = `Faltam ${progressoTarefas.corrida} km de corrida`;
+}
+
+// Função para completar uma tarefa
+function completeExercise(exercise) {
+    const progressoTarefas = JSON.parse(localStorage.getItem('progressoTarefas'));
+    const tarefasTempo = JSON.parse(localStorage.getItem('tarefasTempo')) || {};
+
+    const currentTime = Date.now();
+
+    // Verificar se passou 24 horas desde a última conclusão
+    if (tarefasTempo[exercise]) {
+        const timeElapsed = currentTime - tarefasTempo[exercise];
+        const timeRemaining = 24 * 60 * 60 * 1000 - timeElapsed; // 24 horas em milissegundos
+
+        if (timeRemaining > 0) {
+            const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            alert(`Você precisa esperar mais ${hours}h ${minutes}m para completar ${exercise} novamente.`);
+            return;
+        }
+    }
+
+    // Atualizar progresso
+    if (progressoTarefas[exercise] > 0) {
+        progressoTarefas[exercise] = Math.max(0, progressoTarefas[exercise] - 10); // Diminui 10 ou até 0
+        if (progressoTarefas[exercise] === 0) {
+            tarefasTempo[exercise] = currentTime; // Registrar horário de conclusão
+            alert(`Você concluiu a tarefa de ${exercise}!`);
+        }
+    } else {
+        alert(`A tarefa de ${exercise} já está concluída!`);
+    }
+
+    // Atualizar dados no localStorage
+    localStorage.setItem('progressoTarefas', JSON.stringify(progressoTarefas));
+    localStorage.setItem('tarefasTempo', JSON.stringify(tarefasTempo));
+
+    // Atualizar a interface
+    updateTaskProgress();
+}
+
+// Função para resetar todos os dados
+function resetAll() {
+    localStorage.clear();
+    alert("Dados resetados!");
+    location.reload();
+}
+
+// Verificar e carregar informações ao carregar a página
+window.onload = function () {
+    const personagem = JSON.parse(localStorage.getItem('personagem'));
+
+    if (personagem) {
+        // Atualizar informações do personagem
+        document.getElementById('character-name').textContent = `Nome: ${personagem.nome}`;
+        document.getElementById('character-level').textContent = `Nível: ${personagem.nivel}`;
+        document.getElementById('strength').textContent = `Força: ${personagem.atributos.forca}`;
+        document.getElementById('agility').textContent = `Agilidade: ${personagem.atributos.agilidade}`;
+        document.getElementById('intelligence').textContent = `Inteligência: ${personagem.atributos.inteligencia}`;
+        showSection('personagem');
+        updateTaskProgress();
+    } else {
+        showSection('create-character');
+    }
+};
+
 
 
 
