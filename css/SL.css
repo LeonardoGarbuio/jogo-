@@ -36,8 +36,8 @@ nav {
     width: 100%;
     background-color: #181818;
     z-index: 1000;
-    padding: 15px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 nav img {
@@ -55,7 +55,7 @@ nav ul {
 }
 
 nav ul li {
-    margin: 0 20px;
+    margin: 0 15px;
 }
 
 nav ul li a {
@@ -64,7 +64,7 @@ nav ul li a {
     font-size: 1.2rem;
     text-transform: uppercase;
     font-weight: bold;
-    padding: 10px;
+    padding: 10px 15px;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -80,42 +80,52 @@ nav ul li a:hover {
     background-color: #2c3e50;
     border-radius: 10px;
     width: 100%;
-    height: auto;
     margin-bottom: 20px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 20px;
     color: #fff;
-    font-size: 1.5rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 1.2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .task-box h3 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin-bottom: 10px;
 }
 
-/* Estilo para o contêiner do botão e quadrado */
-.button-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Espaçamento entre o botão e o quadrado */
+.task-box:hover {
+    background-color: #34495e;
+    transform: translateY(-5px);
+    cursor: pointer;
 }
 
-/* Estilo para o quadrado */
+/* Estilo para os botões */
+button {
+    background: transparent;
+    border: 2px solid #00d9ff;
+    color: #00d9ff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    text-shadow: 0 0 5px #00d9ff;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+    background-color: #00d9ff;
+    color: #0d0f17;
+    box-shadow: 0 0 15px #00d9ff;
+}
+
+/* Quadrado */
 .square {
     width: 20px;
     height: 20px;
-    background-color: #0d0f17; /* Fundo escuro */
-    border: 2px solid #3498db; /* Bordas azuis */
-    border-radius: 4px; /* Bordas arredondadas, como as do site */
-}
-
-/* Efeito de hover na task-box */
-.task-box:hover {
-    background-color: #34495e;
-    cursor: pointer;
+    background-color: #0d0f17;
+    border: 2px solid #00d9ff;
+    border-radius: 5px;
+    display: inline-block;
 }
 
 /* Estilo para a navegação e seções */
@@ -133,39 +143,6 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* Estilo do botão e quadrado */
-.button-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Espaço entre o botão e o quadrado */
-}
-
-button {
-    background: transparent;
-    border: 2px solid #00d9ff; /* Borda azul */
-    color: #00d9ff; /* Texto azul neon */
-    padding: 15px 25px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    border-radius: 5px;
-    text-shadow: 0 0 5px #00d9ff;
-    transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-button:hover {
-    background-color: #00d9ff;
-    color: #0d0f17; /* Fundo escuro */
-    box-shadow: 0 0 20px #00d9ff;
-}
-
-.square {
-    width: 20px;
-    height: 20px;
-    background-color: #0d0f17; /* Fundo escuro */
-    border: 2px solid #00d9ff; /* Borda azul */
-    border-radius: 5px;
-}
-
 /* Estilo para o chat */
 .chat-box {
     background-color: #34495e;
@@ -176,8 +153,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 20px auto;
 }
 
 .chat-box h3 {
@@ -187,14 +163,14 @@ button:hover {
 }
 
 .chat-box p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-bottom: 15px;
     color: #fff;
 }
 
 .chat-box input {
     padding: 10px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border: 2px solid #00d9ff;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -205,7 +181,7 @@ button:hover {
 .chat-box button {
     background-color: #00d9ff;
     color: #0d0f17;
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -221,8 +197,69 @@ button:hover {
     flex-grow: 1;
     overflow-y: auto;
     margin-bottom: 10px;
+    max-height: 200px;
 }
 
 .chat-box .messages p {
     margin: 5px 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+/* Adicionar espaçamento no topo das seções */
+section {
+    padding: 100px 20px; /* Aumentar o espaçamento no topo para acomodar o nav fixo */
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+/* Estilo para o formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px; /* Espaçamento entre os campos */
+    margin: 0 auto; /* Centraliza o formulário */
+    max-width: 400px; /* Define uma largura máxima */
+    background-color: #2c3e50; /* Fundo do formulário */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+form label {
+    color: #00d9ff; /* Azul neon */
+    font-size: 1.2rem;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #00d9ff; /* Borda azul neon */
+    border-radius: 5px;
+    background-color: #0d0f17; /* Fundo escuro */
+    color: #00d9ff; /* Texto azul neon */
+}
+
+form button {
+    align-self: center; /* Centraliza o botão dentro do formulário */
+    background-color: #00d9ff;
+    color: #0d0f17;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+form button:hover {
+    background-color: #00b8cc;
+    box-shadow: 0 0 15px #00d9ff;
+}
+.hidden {
+    display: none;
 }
